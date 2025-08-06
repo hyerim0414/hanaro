@@ -1,157 +1,365 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>함께가게</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- AOS Animation Library -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함께가게 - 소상공인 AI 맞춤 지원 플랫폼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            background-color: #f8fafc;
+        }
+        /* --- Animation Base --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Stagger Animation --- */
+        .stagger-container.in-view .stagger-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .in-view .stagger-item:nth-child(1) { transition-delay: 0.2s; }
+        .in-view .stagger-item:nth-child(2) { transition-delay: 0.4s; }
+        .in-view .stagger-item:nth-child(3) { transition-delay: 0.6s; }
+
+        /* --- Chart & Number Animation --- */
+        .radar-chart-polygon {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .in-view .radar-chart-polygon {
+            stroke-dashoffset: 0;
+        }
+        
+        /* --- Typing Animation --- */
+        .typing-container {
+            border-right: .15em solid #3B82F6;
+            white-space: pre-wrap;
+            overflow: hidden;
+            animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3B82F6; }
+        }
+        .ai-response-box {
+            display: none;
+        }
+
+        /* --- General Styles --- */
+        .gradient-text {
+            background: linear-gradient(to right, #3B82F6, #1D4ED8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.2);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <!-- Navbar -->
-  <header class="w-full bg-white shadow fixed top-0 left-0 z-50">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="#" class="text-xl font-bold">함께가게</a>
-      <nav class="hidden md:flex space-x-6">
-        <a href="#services" class="hover:text-blue-600">서비스</a>
-        <a href="#details" class="hover:text-blue-600">상세 설명</a>
-        <a href="#cta" class="hover:text-blue-600">알림받기</a>
-      </nav>
-      <button class="md:hidden focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+<body class="text-gray-800">
+
+    <div class="container mx-auto max-w-lg p-6 space-y-20 md:space-y-24">
+
+        <!-- [1] Hero Section -->
+        <header class="text-center pt-10 animate-on-scroll">
+            <div class="flex justify-center items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text">함께가게</h1>
+            <p class="text-lg text-gray-600">
+                AI가 사장님 가게의 문제를 진단하고<br>꼭 맞는 정부 지원금을 찾아드려요.
+            </p>
+        </header>
+
+        <main class="space-y-20 md:space-y-24">
+
+            <!-- [2] Problem Section -->
+            <section class="text-center p-8 bg-white rounded-2xl shadow-lg card-hover animate-on-scroll">
+                <h2 class="text-2xl font-bold mb-3 leading-relaxed">사장님, 혹시 이런 고민 하고 계신가요?</h2>
+                <div class="space-y-3 text-left my-6">
+                    <div class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-blue-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-gray-700">매출은 자꾸 떨어지는데, <span class="font-semibold">정확한 원인</span>을 몰라 답답해요.</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-blue-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-gray-700">정부 지원금이 많다던데, <span class="font-semibold">나에게 맞는 정책</span>을 찾기가 너무 어려워요.</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-blue-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-gray-700">주변 상권은 어떻게 변하는지, <span class="font-semibold">경쟁 가게</span>는 얼마나 늘었는지 감도 안 잡혀요.</p>
+                    </div>
+                </div>
+                <p class="text-3xl font-extrabold text-blue-600 mb-2">이제 '함께가게' 하세요!</p>
+                <p class="text-gray-600">사장님의 복잡한 고민, 저희가 데이터로 해결해 드릴게요.</p>
+            </section>
+
+            <!-- [3] Solution 1: Report with Gemini AI -->
+            <section class="animate-on-scroll">
+                <div class="text-center mb-6">
+                    <span class="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">핵심 기능 1</span>
+                    <h2 class="text-3xl font-extrabold mt-3 mb-2">AI 상권 진단 리포트</h2>
+                    <p class="text-gray-600">숫자 너머의 진짜 의미, AI가 알려드려요.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover" data-animation-container>
+                    <div class="p-6 bg-gray-50 border-b">
+                        <h3 class="font-bold text-lg">종합 건전성 진단 (2분기)</h3>
+                        <p class="text-sm text-gray-500">서울시 마포구 망원동</p>
+                    </div>
+                    <div class="p-6 grid grid-cols-2 gap-6">
+                        <div class="relative h-32 flex items-center justify-center">
+                           <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="20" fill="none" stroke="#E5E7EB" stroke-width="0.5"/>
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#E5E7EB" stroke-width="0.5"/>
+                                <polygon class="radar-chart-polygon" points="50,15 85,40 70,85 30,85 15,40" fill="rgba(59, 130, 246, 0.2)" stroke="#3B82F6" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">성장성</p>
+                                <p class="text-2xl font-bold text-blue-600"><span class="number-count" data-target="85">0</span>점</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">안정성</p>
+                                <p class="text-2xl font-bold text-green-600"><span class="number-count" data-target="92">0</span>점</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">활동성</p>
+                                <p class="text-2xl font-bold text-orange-500"><span class="number-count" data-target="74">0</span>점</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 border-t">
+                        <button id="gemini-analysis-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg cta-button flex items-center justify-center gap-2">
+                            ✨ AI 컨설턴트 분석 보기
+                        </button>
+                        <div id="ai-response-box" class="ai-response-box mt-4 p-4 bg-blue-50 rounded-lg">
+                            <div id="ai-loader" class="flex items-center gap-2 text-sm text-blue-700">
+                                <svg class="animate-spin h-5 w-5 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                <span>AI 컨설턴트가 데이터를 분석하고 있습니다...</span>
+                            </div>
+                            <p id="ai-response-text" class="text-sm text-gray-800 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- [4] Solution 2: Policy -->
+            <section class="animate-on-scroll">
+                <div class="text-center mb-6">
+                    <span class="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">핵심 기능 2</span>
+                    <h2 class="text-3xl font-extrabold mt-3 mb-2">AI 맞춤 정책 추천</h2>
+                    <p class="text-gray-600">더 이상 놓치는 지원금 없도록!</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover stagger-container" data-animation-container>
+                     <h3 class="font-bold text-lg mb-4">사장님을 위한 맞춤 정책이에요</h3>
+                     <div class="space-y-4">
+                        <div class="stagger-item bg-blue-50 p-4 rounded-lg flex items-center space-x-4">
+                            <div class="bg-blue-500 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg></div>
+                            <div>
+                                <h3 class="font-bold">소상공인 전기요금 특별지원</h3>
+                                <p class="text-sm text-gray-500">에너지 비용 부담 완화, 마감 12일 전</p>
+                            </div>
+                        </div>
+                        <div class="stagger-item bg-green-50 p-4 rounded-lg flex items-center space-x-4">
+                             <div class="bg-green-500 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg></div>
+                            <div>
+                                <h3 class="font-bold">저금리 대환대출 프로그램</h3>
+                                <p class="text-sm text-gray-500">고금리 부담 경감, 상시 접수</p>
+                            </div>
+                        </div>
+                     </div>
+                     <p class="text-center text-sm text-gray-500 mt-6">
+                        진단 결과에 따라 <span class="font-semibold text-gray-700">가장 유리한 정책만 골라</span><br>새 공고가 뜨면 카카오톡으로 바로 알려드려요.
+                    </p>
+                </div>
+            </section>
+
+            <!-- [5] Testimonial Section -->
+            <section class="animate-on-scroll">
+                 <div class="text-center mb-6">
+                    <h2 class="text-3xl font-extrabold mt-3 mb-2">사장님들의 실제 후기</h2>
+                    <p class="text-gray-600">먼저 경험해본 분들이 추천합니다.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/48x48/E0E7FF/3B82F6?text=사장님" class="w-12 h-12 rounded-full" alt="사장님 프로필 사진">
+                        <div class="ml-4">
+                            <p class="font-bold">김민준 사장님</p>
+                            <p class="text-sm text-gray-500">마포구에서 카페 운영</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-700 italic">
+                        "매출이 왜 떨어지는지 몰라 막막했는데, 리포트를 보니 주변에 경쟁 카페가 늘어난 게 문제였어요. 함께가게가 추천해준 '디지털 전환 지원금'으로 배달 앱을 시작하고 매출이 다시 올랐습니다. 정말 고마워요!"
+                    </blockquote>
+                </div>
+            </section>
+
+            <!-- [6] CTA Section -->
+            <section class="text-center p-8 bg-blue-600 rounded-2xl shadow-xl text-white animate-on-scroll">
+                <h2 class="text-3xl font-extrabold mb-4">지금 바로<br>성공의 기회를 잡으세요!</h2>
+                <p class="mb-6 opacity-90">
+                    복잡한 고민은 저희에게 맡기시고,<br>사장님은 사업에만 집중하세요.
+                </p>
+                <form class="flex flex-col sm:flex-row gap-3" onsubmit="event.preventDefault(); showThanks();">
+                    <input type="email" required placeholder="이메일 주소를 입력해주세요" class="flex-grow p-3 rounded-lg text-gray-800 focus:ring-4 focus:ring-blue-300 focus:outline-none transition">
+                    <button type="submit" class="bg-white text-blue-600 font-bold p-3 rounded-lg cta-button">
+                        출시 알림 무료 신청
+                    </button>
+                </form>
+                <p id="thanks-message" class="mt-4 text-yellow-300 font-semibold" style="display: none;">
+                    신청해주셔서 감사합니다! 좋은 소식으로 찾아뵙겠습니다.
+                </p>
+            </section>
+        </main>
+
+        <footer class="text-center py-6 text-gray-400 text-sm border-t animate-on-scroll">
+            &copy; 2025 함께가게. All Rights Reserved.
+        </footer>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white">
-      <a href="#services" class="block px-6 py-3 border-b hover:bg-gray-100">서비스</a>
-      <a href="#details" class="block px-6 py-3 border-b hover:bg-gray-100">상세 설명</a>
-      <a href="#cta" class="block px-6 py-3 hover:bg-gray-100">알림받기</a>
-    </div>
-  </header>
 
-  <!-- Hero Section -->
-  <section class="pt-24 min-h-screen flex flex-col justify-center items-center bg-white px-6 text-center" data-aos="zoom-in" data-aos-duration="1000">
-    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4">함께가게</h1>
-    <p class="text-base sm:text-lg lg:text-2xl mb-8">지금 가게가 왜 어려운지 모르겠다면?<br class="hidden sm:block"/> 함께가게 서비스로 알려드릴게요</p>
-    <a href="#services" class="px-6 py-3 bg-blue-600 text-white rounded-2xl text-md sm:text-lg font-semibold hover:bg-blue-700 transition" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">지금 확인하기</a>
-  </section>
+    <script>
+        // --- Gemini API Call Simulation ---
+        async function callGeminiAPI(businessData) {
+            // This is a placeholder for the actual Gemini API call.
+            // In a real application, you would make a fetch request here.
+            console.log("Calling Gemini API with data:", businessData);
 
-  <!-- Services Section -->
-  <section id="services" class="py-16 px-6 bg-gray-100">
-    <div class="container mx-auto text-center mb-12" data-aos="fade-up" data-aos-duration="800">
-      <h2 class="text-3xl font-bold mb-4">함께가게가 제공하는 서비스</h2>
-      <p class="text-gray-600 max-w-2xl mx-auto">복잡하고 흩어진 정책 정보를 한곳에 모아 맞춤형으로 추천해드립니다.</p>
-    </div>
-    <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <a href="#detail1" class="block" data-aos="fade-right" data-aos-duration="800">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M5 11a6 6 0 1112 0 6 6 0 01-12 0z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">정책 통합 조회</h3>
-          <p class="text-gray-600">정부 부처별로 흩어진 지원 정책과 금융 상품을 한눈에 비교하고 검색하세요.</p>
-        </div>
-      </a>
-      <a href="#detail2" class="block" data-aos="fade-up" data-aos-duration="800">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l6-6 4 4 8-8" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">AI 맞춤형 추천</h3>
-          <p class="text-gray-600">사업체 정보와 상권 데이터를 분석하여 가장 적합한 지원 정책을 추천드립니다.</p>
-        </div>
-      </a>
-      <a href="#detail3" class="block" data-aos="fade-left" data-aos-duration="800">
-        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10v-4" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold mb-2">상권 진단 리포트</h3>
-          <p class="text-gray-600">상권 데이터와 사업체 현황을 분석한 종합 진단 리포트를 제공합니다.</p>
-        </div>
-      </a>
-    </div>
-  </section>
+            const prompt = `
+                다음은 한 소상공인의 가게 데이터입니다.
+                - 상권: ${businessData.location}
+                - 성장성 점수: ${businessData.growth}
+                - 안정성 점수: ${businessData.stability}
+                - 활동성 점수: ${businessData.activity}
+                이 데이터를 바탕으로, 가게의 현재 상황을 진단하고 개선을 위한 구체적인 액션 아이템을 150자 내외로 추천해주세요.
+                친절하고 전문적인 컨설턴트의 어조로 작성해주세요.
+            `;
+            
+            // For demonstration, we return a hardcoded response after a delay.
+            const sampleResponse = "사장님, 안녕하세요! 함께가게 AI 컨설턴트입니다. 사장님의 가게는 재무 안정성(92점)이 매우 뛰어나지만, 성장성(74점)이 다소 주춤한 상태입니다. 주변 상권의 유동인구를 고려할 때, MZ세대를 타겟으로 한 SNS 마케팅과 배달 앱 연동 프로모션을 추천합니다. 현재 신청 가능한 '소상공인 온라인 판로 지원 사업'을 활용하시면 마케팅 비용의 50%를 지원받을 수 있습니다.";
 
-  <!-- Detailed Description Section -->
-  <section id="details" class="py-16 px-6 bg-white">
-    <div class="container mx-auto space-y-16">
-      <div id="detail1" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800">
-        <h3 class="text-2xl font-bold mb-4 text-blue-600">정책 통합 조회</h3>
-        <p class="text-gray-700 leading-relaxed mb-2">다양한 정부 부처와 금융권의 지원 정책을 한 곳에 모아 제시합니다.</p>
-        <ul class="list-disc list-inside text-gray-600">
-          <li>연매출, 근로자 수, 업력 등 사용자 상황에 맞춘 필터 기능 지원</li>
-          <li>키워드 검색 및 카테고리별 조회 가능</li>
-          <li>정책별 공고문 원문 링크 제공</li>
-          <li>마감 임박순 및 조회수 기준 정렬 기능</li>
-        </ul>
-      </div>
-      <div id="detail2" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-        <h3 class="text-2xl font-bold mb-4 text-green-600">AI 맞춤형 추천</h3>
-        <p class="text-gray-700 leading-relaxed mb-2">머신러닝 기반 알고리즘으로 사업장 정보와 상권 데이터를 분석합니다.</p>
-        <ul class="list-disc list-inside text-gray-600">
-          <li>매출, 위치, 업력 등 사업체 데이터 활용</li>
-          <li>유동인구, 상권 유형 등 상권 지표 분석</li>
-          <li>최적의 지원 정책 우선 추천</li>
-          <li>카카오톡 알림을 통한 신규 공고 실시간 제공</li>
-        </ul>
-      </div>
-      <div id="detail3" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-        <h3 class="text-2xl font-bold mb-4 text-purple-600">상권 진단 리포트</h3>
-        <p class="text-gray-700 leading-relaxed mb-2">상권 및 사업체 현황을 종합 진단 리포트를 통해 제공합니다.</p>
-        <ul class="list-disc list-inside text-gray-600">
-          <li>상권 유형 분석 및 성장 매트릭스 도출</li>
-          <li>건전성 지수 레이더 차트 시각화</li>
-          <li>주요 변동 요인 막대그래프 제공</li>
-          <li>위험 요인 및 개선 방안 제시</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(sampleResponse);
+                }, 2000); // Simulate network delay
+            });
+        }
 
-  <!-- Call to Action -->
-  <section id="cta" class="bg-blue-600 py-12 px-6 text-white text-center" data-aos="fade-up" data-aos-duration="800">
-    <div class="container mx-auto">
-      <h3 class="text-xl sm:text-2xl font-bold mb-4">출시 알림을 받고 싶다면?</h3>
-      <p class="mb-6">앱 출시 알림 걸어두고 바로 이용하세요!</p>
-      <form onsubmit="handleNotify(event)" class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
-        <input id="emailInput" type="email" placeholder="이메일 입력" required class="w-full sm:flex-1 px-4 py-2 rounded-lg text-gray-800"/>
-        <button type="submit" class="px-6 py-2 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">알림받기</button>
-      </form>
-    </div>
-  </section>
+        // --- UI Control & Animations ---
+        function showThanks() {
+            const form = document.querySelector('form');
+            const thanksMessage = document.getElementById('thanks-message');
+            form.style.display = 'none';
+            thanksMessage.style.display = 'block';
+        }
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity pointer-events-none">
-    알림받기 완료! 🎉
-  </div>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    
+                    const numberElements = entry.target.querySelectorAll('.number-count');
+                    numberElements.forEach(el => {
+                        const target = +el.getAttribute('data-target');
+                        let current = 0;
+                        const increment = target / 100;
+                        function updateCount() {
+                            if (current < target) {
+                                current += increment;
+                                el.innerText = Math.ceil(current);
+                                requestAnimationFrame(updateCount);
+                            } else {
+                                el.innerText = target;
+                            }
+                        }
+                        updateCount();
+                    });
 
-  <!-- Footer -->
-  <footer class="py-6 px-6 text-center text-sm text-gray-500">
-    &copy; 2025 함께가게. All rights reserved.
-  </footer>
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.25 });
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>
-    AOS.init({ once: false, mirror: true, easing: 'ease-out-cubic' });
-    function handleNotify(e) {
-      e.preventDefault();
-      const toast = document.getElementById('toast');
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 3000);
-      document.getElementById('emailInput').value = '';
-    }
-  </script>
+        document.querySelectorAll('.animate-on-scroll, [data-animation-container]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Gemini AI Button Interaction
+        const geminiBtn = document.getElementById('gemini-analysis-btn');
+        const responseBox = document.getElementById('ai-response-box');
+        const loader = document.getElementById('ai-loader');
+        const responseText = document.getElementById('ai-response-text');
+
+        geminiBtn.addEventListener('click', async () => {
+            geminiBtn.disabled = true;
+            geminiBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            responseBox.style.display = 'block';
+            loader.style.display = 'flex';
+            responseText.style.display = 'none';
+            responseText.innerHTML = '';
+
+            const businessData = {
+                location: "서울시 마포구 망원동",
+                growth: 74,
+                stability: 92,
+                activity: 85
+            };
+
+            const result = await callGeminiAPI(businessData);
+            
+            loader.style.display = 'none';
+            responseText.style.display = 'block';
+            
+            // Typing effect for the response
+            let i = 0;
+            function typeWriter() {
+                if (i < result.length) {
+                    responseText.innerHTML += result.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 25);
+                } else {
+                     geminiBtn.disabled = false;
+                     geminiBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            typeWriter();
+        });
+    </script>
+
 </body>
 </html>
