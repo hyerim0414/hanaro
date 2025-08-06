@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>함께가게</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- AOS Animation Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Navbar -->
+  <header class="w-full bg-white shadow fixed top-0 left-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="text-xl font-bold">함께가게</a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#services" class="hover:text-blue-600">서비스</a>
+        <a href="#details" class="hover:text-blue-600">상세 설명</a>
+        <a href="#cta" class="hover:text-blue-600">알림받기</a>
+      </nav>
+      <button class="md:hidden focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white">
+      <a href="#services" class="block px-6 py-3 border-b hover:bg-gray-100">서비스</a>
+      <a href="#details" class="block px-6 py-3 border-b hover:bg-gray-100">상세 설명</a>
+      <a href="#cta" class="block px-6 py-3 hover:bg-gray-100">알림받기</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="pt-24 min-h-screen flex flex-col justify-center items-center bg-white px-6 text-center" data-aos="zoom-in" data-aos-duration="1000">
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4">함께가게</h1>
+    <p class="text-base sm:text-lg lg:text-2xl mb-8">지금 가게가 왜 어려운지 모르겠다면?<br class="hidden sm:block"/> 함께가게 서비스로 알려드릴게요</p>
+    <a href="#services" class="px-6 py-3 bg-blue-600 text-white rounded-2xl text-md sm:text-lg font-semibold hover:bg-blue-700 transition" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">지금 확인하기</a>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-16 px-6 bg-gray-100">
+    <div class="container mx-auto text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+      <h2 class="text-3xl font-bold mb-4">함께가게가 제공하는 서비스</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">복잡하고 흩어진 정책 정보를 한곳에 모아 맞춤형으로 추천해드립니다.</p>
+    </div>
+    <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a href="#detail1" class="block" data-aos="fade-right" data-aos-duration="800">
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M5 11a6 6 0 1112 0 6 6 0 01-12 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">정책 통합 조회</h3>
+          <p class="text-gray-600">정부 부처별로 흩어진 지원 정책과 금융 상품을 한눈에 비교하고 검색하세요.</p>
+        </div>
+      </a>
+      <a href="#detail2" class="block" data-aos="fade-up" data-aos-duration="800">
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l6-6 4 4 8-8" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">AI 맞춤형 추천</h3>
+          <p class="text-gray-600">사업체 정보와 상권 데이터를 분석하여 가장 적합한 지원 정책을 추천드립니다.</p>
+        </div>
+      </a>
+      <a href="#detail3" class="block" data-aos="fade-left" data-aos-duration="800">
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10v-4" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">상권 진단 리포트</h3>
+          <p class="text-gray-600">상권 데이터와 사업체 현황을 분석한 종합 진단 리포트를 제공합니다.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Detailed Description Section -->
+  <section id="details" class="py-16 px-6 bg-white">
+    <div class="container mx-auto space-y-16">
+      <div id="detail1" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800">
+        <h3 class="text-2xl font-bold mb-4 text-blue-600">정책 통합 조회</h3>
+        <p class="text-gray-700 leading-relaxed mb-2">다양한 정부 부처와 금융권의 지원 정책을 한 곳에 모아 제시합니다.</p>
+        <ul class="list-disc list-inside text-gray-600">
+          <li>연매출, 근로자 수, 업력 등 사용자 상황에 맞춘 필터 기능 지원</li>
+          <li>키워드 검색 및 카테고리별 조회 가능</li>
+          <li>정책별 공고문 원문 링크 제공</li>
+          <li>마감 임박순 및 조회수 기준 정렬 기능</li>
+        </ul>
+      </div>
+      <div id="detail2" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <h3 class="text-2xl font-bold mb-4 text-green-600">AI 맞춤형 추천</h3>
+        <p class="text-gray-700 leading-relaxed mb-2">머신러닝 기반 알고리즘으로 사업장 정보와 상권 데이터를 분석합니다.</p>
+        <ul class="list-disc list-inside text-gray-600">
+          <li>매출, 위치, 업력 등 사업체 데이터 활용</li>
+          <li>유동인구, 상권 유형 등 상권 지표 분석</li>
+          <li>최적의 지원 정책 우선 추천</li>
+          <li>카카오톡 알림을 통한 신규 공고 실시간 제공</li>
+        </ul>
+      </div>
+      <div id="detail3" class="bg-white p-8 rounded-lg shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+        <h3 class="text-2xl font-bold mb-4 text-purple-600">상권 진단 리포트</h3>
+        <p class="text-gray-700 leading-relaxed mb-2">상권 및 사업체 현황을 종합 진단 리포트를 통해 제공합니다.</p>
+        <ul class="list-disc list-inside text-gray-600">
+          <li>상권 유형 분석 및 성장 매트릭스 도출</li>
+          <li>건전성 지수 레이더 차트 시각화</li>
+          <li>주요 변동 요인 막대그래프 제공</li>
+          <li>위험 요인 및 개선 방안 제시</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section id="cta" class="bg-blue-600 py-12 px-6 text-white text-center" data-aos="fade-up" data-aos-duration="800">
+    <div class="container mx-auto">
+      <h3 class="text-xl sm:text-2xl font-bold mb-4">출시 알림을 받고 싶다면?</h3>
+      <p class="mb-6">앱 출시 알림 걸어두고 바로 이용하세요!</p>
+      <form onsubmit="handleNotify(event)" class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+        <input id="emailInput" type="email" placeholder="이메일 입력" required class="w-full sm:flex-1 px-4 py-2 rounded-lg text-gray-800"/>
+        <button type="submit" class="px-6 py-2 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">알림받기</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity pointer-events-none">
+    알림받기 완료! 🎉
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-6 px-6 text-center text-sm text-gray-500">
+    &copy; 2025 함께가게. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: false, mirror: true, easing: 'ease-out-cubic' });
+    function handleNotify(e) {
+      e.preventDefault();
+      const toast = document.getElementById('toast');
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3000);
+      document.getElementById('emailInput').value = '';
+    }
+  </script>
+</body>
+</html>
