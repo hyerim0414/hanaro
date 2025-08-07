@@ -25,8 +25,6 @@
             color: var(--text-light);
             overflow-x: hidden;
         }
-
-        /* --- Animation Base --- */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
@@ -36,8 +34,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* --- Marquee Animation --- */
         .marquee-content {
             display: flex;
             position: absolute;
@@ -49,8 +45,6 @@
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
         }
-
-        /* --- General Styles --- */
         .glass-card {
             background: rgba(27, 38, 59, 0.6);
             backdrop-filter: blur(10px);
@@ -68,8 +62,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(74, 144, 226, 0.3), 0 4px 6px -2px rgba(74, 144, 226, 0.2);
         }
-
-        /* --- Detailed Report & Countdown Styles --- */
         .report-section { margin-bottom: 10px; }
         .report-section-title { font-size: 1.1em; font-weight: 700; text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; color: var(--text-light); }
         .report-section-title i { color: var(--light-blue); }
@@ -102,25 +94,13 @@
         }
         .gemini-btn:hover { background: var(--light-blue); color: var(--dark-blue); }
         .gemini-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 0 auto 40px auto; max-width: 340px; }
-        .countdown-item {
-            background: rgba(13, 27, 42, 0.7);
-            padding: 15px 10px; border-radius: 12px;
-        }
-        .countdown-number { font-size: 2.5em; font-weight: 700; color: var(--text-light); }
-        .countdown-label { font-size: 0.8em; color: var(--text-muted); margin-top: 2px; }
-
-        #report-slider-container {
-            transition: height 0.4s ease-in-out;
-        }
+        
+        #report-slider-container { transition: height 0.4s ease-in-out; }
         .slider-dot {
             cursor: pointer; height: 12px; width: 12px; margin: 0 4px; background-color: rgba(255, 255, 255, 0.3);
             border-radius: 50%; display: inline-block; transition: background-color 0.6s ease;
         }
-        .slider-dot.active {
-            background-color: var(--light-blue);
-        }
+        .slider-dot.active { background-color: var(--light-blue); }
     </style>
 </head>
 <body class="antialiased">
@@ -191,7 +171,6 @@
 
                     <div class="relative overflow-hidden" id="report-slider-container">
                         <div class="flex transition-transform duration-500 ease-in-out" id="slider-track">
-                            
                             <div class="w-full flex-shrink-0 px-2 slide">
                                 <div class="report-section">
                                     <h4 class="report-section-title"><i class="fa-solid fa-chart-pie"></i>성장 매트릭스 분석</h4>
@@ -211,7 +190,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="w-full flex-shrink-0 px-2 slide">
                                 <div class="report-section">
                                     <h4 class="report-section-title"><i class="fa-solid fa-compass-drafting"></i>상권 건전성 지수</h4>
@@ -312,11 +290,23 @@
             <section class="text-center p-8 bg-blue-900/50 rounded-2xl text-white animate-on-scroll border border-blue-800">
                 <h2 class="text-3xl font-extrabold mb-2">지금 바로<br>성공의 기회를 잡으세요!</h2>
                 <p class="text-sm text-slate-400 mb-4">출시일까지</p>
-                <div class="countdown">
-                    <div class="countdown-item"><div class="countdown-number" id="days">0</div><div class="countdown-label">일</div></div>
-                    <div class="countdown-item"><div class="countdown-number" id="hours">0</div><div class="countdown-label">시간</div></div>
-                    <div class="countdown-item"><div class="countdown-number" id="minutes">0</div><div class="countdown-label">분</div></div>
-                    <div class="countdown-item"><div class="countdown-number" id="seconds">0</div><div class="countdown-label">초</div></div>
+                <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-xs mx-auto mb-8">
+                    <div class="bg-slate-900/50 p-2 sm:p-3 rounded-lg text-center">
+                        <div id="days" class="text-3xl sm:text-4xl font-bold">0</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">일</div>
+                    </div>
+                    <div class="bg-slate-900/50 p-2 sm:p-3 rounded-lg text-center">
+                        <div id="hours" class="text-3xl sm:text-4xl font-bold">0</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">시간</div>
+                    </div>
+                    <div class="bg-slate-900/50 p-2 sm:p-3 rounded-lg text-center">
+                        <div id="minutes" class="text-3xl sm:text-4xl font-bold">0</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">분</div>
+                    </div>
+                    <div class="bg-slate-900/50 p-2 sm:p-3 rounded-lg text-center">
+                        <div id="seconds" class="text-3xl sm:text-4xl font-bold">0</div>
+                        <div class="text-xs sm:text-sm text-slate-400 mt-1">초</div>
+                    </div>
                 </div>
                 <p class="mb-8 opacity-80">
                     복잡한 고민은 저희에게 맡기시고,<br>사장님은 사업에만 집중하세요.
@@ -443,13 +433,12 @@
                 }, 100);
 
                 window.addEventListener('resize', () => {
-                    // Recalculate and apply the correct transform and height on resize
                     const newTransform = slides[currentIndex].offsetLeft;
-                    sliderTrack.style.transition = 'none'; // Disable transition for instant resize
+                    sliderTrack.style.transition = 'none';
                     sliderTrack.style.transform = `translateX(-${newTransform}px)`;
                     sliderContainer.style.height = slides[currentIndex].scrollHeight + 'px';
                     setTimeout(() => {
-                        sliderTrack.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+                        sliderTrack.style.transition = 'transform 0.5s ease-in-out';
                     }, 50);
                 });
             }
