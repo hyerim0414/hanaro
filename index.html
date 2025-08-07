@@ -70,7 +70,7 @@
         }
 
         /* --- Detailed Report & Countdown Styles --- */
-        .report-section { margin-bottom: 30px; }
+        .report-section { margin-bottom: 10px; }
         .report-section-title { font-size: 1.1em; font-weight: 700; text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; color: var(--text-light); }
         .report-section-title i { color: var(--light-blue); }
         .growth-matrix { background: rgba(13, 27, 42, 0.7); padding: 20px; border-radius: 15px; text-align: center; }
@@ -110,6 +110,17 @@
         }
         .countdown-number { font-size: 2.5em; font-weight: 700; color: var(--text-light); }
         .countdown-label { font-size: 0.8em; color: var(--text-muted); margin-top: 2px; }
+
+        #report-slider-container {
+            transition: height 0.4s ease-in-out;
+        }
+        .slider-dot {
+            cursor: pointer; height: 12px; width: 12px; margin: 0 4px; background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%; display: inline-block; transition: background-color 0.6s ease;
+        }
+        .slider-dot.active {
+            background-color: var(--light-blue);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -124,7 +135,7 @@
                 </span>
             </h1>
             <p class="text-lg text-slate-300 opacity-90 mb-10">
-                AI가 사장님 가게의 문제를 진단하고<br>꼭 맞는 정부 지원금을 찾아드려요.
+                AI가 사장님 가게의 문제를 진단하고<br>꼭 맞는 정부 지원 정책을 찾아드려요.
             </p>
             <div class="grid grid-cols-3 gap-4 text-center">
                 <div class="glass-card rounded-xl p-4">
@@ -133,7 +144,7 @@
                 </div>
                  <div class="glass-card rounded-xl p-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
-                    <h4 class="font-bold text-sm">맞춤 지원금</h4>
+                    <h4 class="font-bold text-sm">맞춤 지원 정책</h4>
                 </div>
                  <div class="glass-card rounded-xl p-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -153,7 +164,7 @@
                     </div>
                     <div class="flex items-start space-x-3">
                          <svg class="w-6 h-6 text-blue-400 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <p class="text-slate-300">정부 지원금이 많다던데, <span class="font-semibold text-white">나에게 맞는 정책</span>을 찾기가 너무 어려워요.</p>
+                        <p class="text-slate-300">정부 지원이 많다던데, <span class="font-semibold text-white">나에게 맞는 정책</span>을 찾기가 너무 어려워요.</p>
                     </div>
                     <div class="flex items-start space-x-3">
                         <svg class="w-6 h-6 text-blue-400 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -178,43 +189,65 @@
                         <p class="text-xs text-slate-500 mt-1">* 상세 설명을 위한 가상의 가게 정보입니다.</p>
                     </div>
 
-                    <div class="report-section">
-                        <h4 class="report-section-title"><i class="fa-solid fa-chart-pie"></i>성장 매트릭스 분석</h4>
-                        <div class="growth-matrix">
-                            <div class="status">⚠️ 성장 정체 구간</div>
-                            <p class="description">안정적인 매출 대비 수익성 개선이 필요한 시점입니다.</p>
+                    <div class="relative overflow-hidden" id="report-slider-container">
+                        <div class="flex transition-transform duration-500 ease-in-out" id="slider-track">
+                            
+                            <div class="w-full flex-shrink-0 px-2 slide">
+                                <div class="report-section">
+                                    <h4 class="report-section-title"><i class="fa-solid fa-chart-pie"></i>성장 매트릭스 분석</h4>
+                                    <div class="growth-matrix">
+                                        <div class="status">⚠️ 성장 정체 구간</div>
+                                        <p class="description">안정적인 매출 대비 수익성 개선이 필요한 시점입니다.</p>
+                                    </div>
+                                </div>
+                                <div class="report-section mt-6">
+                                    <h4 class="report-section-title"><i class="fa-solid fa-arrow-right-arrow-left"></i>주요 변동 요인 분석</h4>
+                                    <p class="text-xs text-slate-500 -mt-3 mb-3 text-left">(직전분기 대비)</p>
+                                    <div class="factors-chart">
+                                        <div class="factor-bar"><div class="factor-label">신규 고객 유입</div><div class="factor-bar-bg"><div class="factor-bar-fill positive" data-width="75" data-value="+15%"></div></div></div>
+                                        <div class="factor-bar"><div class="factor-label">재방문율</div><div class="factor-bar-bg"><div class="factor-bar-fill positive" data-width="60" data-value="+8%"></div></div></div>
+                                        <div class="factor-bar"><div class="factor-label">인근 경쟁강도</div><div class="factor-bar-bg"><div class="factor-bar-fill negative" data-width="80" data-value="-20%"></div></div></div>
+                                        <div class="factor-bar"><div class="factor-label">재료비 원가</div><div class="factor-bar-bg"><div class="factor-bar-fill negative" data-width="65" data-value="-12%"></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="w-full flex-shrink-0 px-2 slide">
+                                <div class="report-section">
+                                    <h4 class="report-section-title"><i class="fa-solid fa-compass-drafting"></i>상권 건전성 지수</h4>
+                                    <div class="radar-chart-container">
+                                        <canvas id="radarChart"></canvas>
+                                    </div>
+                                    <div class="radar-legend">
+                                        <div class="legend-item"><span class="legend-color" style="background-color: rgba(74, 144, 226, 0.8);"></span>이번 분기</div>
+                                        <div class="legend-item text-slate-500"><span class="legend-color" style="background-color: #6b7280;"></span>지난 분기</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <button id="prev-slide" class="absolute top-1/2 left-0 -translate-y-1/2 bg-slate-700/50 hover:bg-slate-600/50 rounded-full w-8 h-8 text-white transition-opacity duration-300 opacity-0"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="next-slide" class="absolute top-1/2 right-0 -translate-y-1/2 bg-slate-700/50 hover:bg-slate-600/50 rounded-full w-8 h-8 text-white transition-opacity duration-300"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
+                    
+                    <div id="slider-dots" class="flex justify-center gap-2 pt-4"></div>
 
-                    <div class="report-section">
-                        <h4 class="report-section-title"><i class="fa-solid fa-compass-drafting"></i>상권 건전성 지수</h4>
-                        <div class="radar-chart-container">
-                            <canvas id="radarChart"></canvas>
-                        </div>
-                        <div class="radar-legend">
-                            <div class="legend-item"><span class="legend-color" style="background-color: rgba(74, 144, 226, 0.8);"></span>이번 분기</div>
-                            <div class="legend-item text-slate-500"><span class="legend-color" style="background-color: #6b7280;"></span>지난 분기</div>
-                        </div>
-                    </div>
-
-                    <div class="report-section">
-                        <h4 class="report-section-title"><i class="fa-solid fa-arrow-right-arrow-left"></i>주요 변동 요인 분석</h4>
-                        <div class="factors-chart">
-                            <div class="factor-bar"><div class="factor-label">신규 고객 유입</div><div class="factor-bar-bg"><div class="factor-bar-fill positive" data-width="75" data-value="+15%"></div></div></div>
-                            <div class="factor-bar"><div class="factor-label">재방문율</div><div class="factor-bar-bg"><div class="factor-bar-fill positive" data-width="60" data-value="+8%"></div></div></div>
-                            <div class="factor-bar"><div class="factor-label">인근 경쟁강도</div><div class="factor-bar-bg"><div class="factor-bar-fill negative" data-width="80" data-value="-20%"></div></div></div>
-                            <div class="factor-bar"><div class="factor-label">재료비 원가</div><div class="factor-bar-bg"><div class="factor-bar-fill negative" data-width="65" data-value="-12%"></div></div></div>
-                        </div>
-                    </div>
-
-                    <div class="report-section">
+                    <div class="report-section mt-6 pt-6 border-t border-slate-700/50">
                         <h4 class="report-section-title"><i class="fa-solid fa-robot"></i>AI 종합 진단</h4>
-                        <div class="ai-summary">
-                            <div class="icon"><i class="fa-solid fa-lightbulb"></i></div>
-                            <p id="aiDiagnosisText">성수동의 높은 유동인구 덕에 <strong>신규 고객은 늘었지만, 주변 경쟁 심화와 원가 상승으로 수익성이 악화</strong>되고 있어요. 단골 고객 확보를 위한 마케팅과 운영비 절감을 위한 정부 지원이 필요해 보입니다.</p>
-                        </div>
-                        <div class="text-right mt-4">
-                             <button id="regenerateDiagnosis" class="gemini-btn">✨ AI로 다시 진단받기</button>
+                        <button id="gemini-analysis-btn" class="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg cta-button flex items-center justify-center gap-2">
+                            ✨ AI 컨설턴트 분석 보기
+                        </button>
+                        <div id="ai-response-box" class="mt-4" style="display: none;">
+                            <div id="ai-loader" class="flex items-center gap-3 text-sm text-blue-300 p-4 bg-slate-900/70 rounded-lg">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>AI 컨설턴트가 데이터를 분석하고 있습니다...</span>
+                            </div>
+                            <div id="ai-summary-container" class="ai-summary" style="display: none;">
+                                <div class="icon"><i class="fa-solid fa-lightbulb"></i></div>
+                                <p id="ai-response-text"></p>
+                            </div>
+                            <div id="regenerate-container" class="text-right mt-4" style="display: none;">
+                                <button id="regenerateDiagnosis" class="gemini-btn">✨ AI로 다시 진단받기</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -224,32 +257,32 @@
                 <div class="text-center mb-6">
                     <span class="bg-blue-900/80 text-blue-300 text-sm font-semibold px-3 py-1 rounded-full">핵심 기능 2</span>
                     <h2 class="text-3xl font-extrabold mt-3 mb-2">AI 맞춤 정책 추천</h2>
-                    <p class="text-slate-400">더 이상 놓치는 지원금 없도록!</p>
+                    <p class="text-slate-400">더 이상 놓치는 지원 정책 없도록!</p>
                 </div>
                 <div class="glass-card rounded-2xl p-6">
-                     <h3 class="font-bold text-lg mb-4 text-white">사장님을 위한 맞춤 정책이에요</h3>
+                     <h3 class="font-bold text-lg mb-4 text-white">AI 진단에 따른 맞춤 솔루션</h3>
                      <div class="space-y-4">
-                        <a href="https://xn--vb0b632bl2b83b87a393d6wc.kr/" target="_blank" rel="noopener noreferrer" class="block hover:scale-105 transition-transform duration-300">
+                        <a href="https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do" target="_blank" rel="noopener noreferrer" class="block hover:scale-105 transition-transform duration-300">
                             <div class="bg-slate-800/50 p-4 rounded-lg flex items-center space-x-4">
-                                <div class="bg-blue-500 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg></div>
+                                <div class="bg-purple-500 text-white p-3 rounded-lg"><i class="fa-solid fa-wifi"></i></div>
                                 <div>
-                                    <h3 class="font-bold text-white">소상공인 전기요금 특별지원</h3>
-                                    <p class="text-sm text-slate-400">에너지 비용 부담 완화, 마감 12일 전</p>
+                                    <h3 class="font-bold text-white">소상공인 스마트기술 도입 지원</h3>
+                                    <p class="text-sm text-slate-400">CRM 도입, 온라인 마케팅 등 디지털 전환 비용 지원</p>
                                 </div>
                             </div>
                         </a>
-                        <a href="https://ols.semas.or.kr/" target="_blank" rel="noopener noreferrer" class="block hover:scale-105 transition-transform duration-300">
+                        <a href="https://xn--vb0b632bl2b83b87a393d6wc.kr/" target="_blank" rel="noopener noreferrer" class="block hover:scale-105 transition-transform duration-300">
                             <div class="bg-slate-800/50 p-4 rounded-lg flex items-center space-x-4">
-                                <div class="bg-green-500 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg></div>
+                                <div class="bg-blue-500 text-white p-3 rounded-lg"><i class="fa-solid fa-bolt-lightning"></i></div>
                                 <div>
-                                    <h3 class="font-bold text-white">저금리 대환대출 프로그램</h3>
-                                    <p class="text-sm text-slate-400">고금리 부담 경감, 상시 접수</p>
+                                    <h3 class="font-bold text-white">소상공인 전기요금 특별지원</h3>
+                                    <p class="text-sm text-slate-400">에너지 비용 부담 완화로 운영비 절감</p>
                                 </div>
                             </div>
                         </a>
                      </div>
                      <p class="text-center text-sm text-slate-400 mt-6">
-                        진단 결과에 따라 <span class="font-semibold text-slate-200">가장 유리한 정책만 골라</span><br>새 공고가 뜨면 카카오톡으로 바로 알려드려요.
+                        진단 결과에 따라 <span class="font-semibold text-slate-200">가장 적합한 정책만 골라</span><br>새 공고가 뜨면 카카오톡으로 바로 알려드려요.
                      </p>
                 </div>
             </section>
@@ -302,118 +335,224 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    
-                    if (entry.target.id === 'diagnosis-report') {
-                        createRadarChart();
-                        animateFactorBars();
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
                     }
+                });
+            }, { threshold: 0.25 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+
+            function startCountdown() {
+                const launchDate = new Date();
+                launchDate.setDate(launchDate.getDate() + 85);
+                launchDate.setHours(launchDate.getHours() + 12);
+                launchDate.setMinutes(launchDate.getMinutes() + 22);
+                launchDate.setSeconds(launchDate.getSeconds() + 30);
+
+                const timer = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = launchDate.getTime() - now;
                     
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.25 });
+                    if (distance < 0) {
+                        clearInterval(timer);
+                        ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).textContent = '0');
+                        return;
+                    }
+                    document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    document.getElementById('hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2,'0');
+                    document.getElementById('minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2,'0');
+                    document.getElementById('seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2,'0');
+                }, 1000);
+            }
+            startCountdown();
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-
-        // --- Countdown Timer ---
-        function startCountdown() {
-            const launchDate = new Date();
-            launchDate.setDate(launchDate.getDate() + 85);
-            launchDate.setHours(launchDate.getHours() + 12);
-            launchDate.setMinutes(launchDate.getMinutes() + 22);
-            launchDate.setSeconds(launchDate.getSeconds() + 30);
-
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = launchDate.getTime() - now;
+            const sliderContainer = document.getElementById('report-slider-container');
+            if (sliderContainer) {
+                const sliderTrack = document.getElementById('slider-track');
+                const slides = Array.from(sliderTrack.children);
+                const nextButton = document.getElementById('next-slide');
+                const prevButton = document.getElementById('prev-slide');
+                const dotsNav = document.getElementById('slider-dots');
                 
-                if (distance < 0) {
-                    clearInterval(timer);
-                    document.getElementById('days').textContent = '0';
-                    document.getElementById('hours').textContent = '0';
-                    document.getElementById('minutes').textContent = '0';
-                    document.getElementById('seconds').textContent = '0';
-                    return;
-                }
-                document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2,'0');
-                document.getElementById('minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2,'0');
-                document.getElementById('seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2,'0');
-            }, 1000);
-        }
-        startCountdown();
+                let currentIndex = 0;
+                const animatedSlides = new Set();
+                
+                slides.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('slider-dot');
+                    dot.addEventListener('click', () => moveToSlide(i));
+                    dotsNav.appendChild(dot);
+                });
+                const dots = Array.from(dotsNav.children);
 
-        // --- Chart Creation & Animation ---
-        function createRadarChart() {
-            const ctx = document.getElementById('radarChart');
-            if (!ctx || Chart.getChart(ctx)) return; 
-            const labels = ['수익성', '안정성', '성장성', '활동성', '생산성'];
-            const thisQuarterData = [70, 60, 55, 80, 65];
-            const lastQuarterData = [75, 65, 60, 70, 70];
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: '이번 분기', data: thisQuarterData, backgroundColor: 'rgba(74, 144, 226, 0.4)', borderColor: 'rgba(74, 144, 226, 1)', borderWidth: 2, pointBackgroundColor: 'rgba(74, 144, 226, 1)', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: 'rgba(74, 144, 226, 1)' },
-                        { label: '지난 분기', data: lastQuarterData, backgroundColor: 'rgba(107, 114, 128, 0.4)', borderColor: 'rgba(107, 114, 128, 1)', borderWidth: 2, borderDash: [5, 5], pointBackgroundColor: 'rgba(107, 114, 128, 1)', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: 'rgba(107, 114, 128, 1)' }
-                    ]
-                },
-                options: {
-                    animation: { duration: 1500, easing: 'easeOutQuart' },
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.2)' },
-                            pointLabels: { font: { size: 12, weight: 'bold' }, color: '#E0E1DD' },
-                            ticks: { display: false, stepSize: 25 },
-                            min: 0, max: 100
-                        }
-                    },
-                    plugins: { legend: { display: false } },
-                    maintainAspectRatio: false
-                }
-            });
-        }
+                const moveToSlide = (targetIndex) => {
+                    const slide = slides[targetIndex];
+                    if(slide) {
+                        sliderContainer.style.height = slide.scrollHeight + 'px';
+                        sliderTrack.style.transform = 'translateX(-' + slide.offsetLeft + 'px)';
+                        currentIndex = targetIndex;
+                        updateNav();
+                        triggerSlideAnimations(targetIndex);
+                    }
+                };
+                
+                const updateNav = () => {
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    dots[currentIndex].classList.add('active');
+                    prevButton.style.opacity = currentIndex === 0 ? '0' : '1';
+                    prevButton.disabled = currentIndex === 0;
+                    nextButton.style.opacity = currentIndex === slides.length - 1 ? '0' : '1';
+                    nextButton.disabled = currentIndex === slides.length - 1;
+                };
 
-        function animateFactorBars() {
-            const bars = document.querySelectorAll('.factor-bar-fill');
-            bars.forEach(bar => {
-                const width = bar.dataset.width;
-                const value = bar.dataset.value;
+                const triggerSlideAnimations = (index) => {
+                    if (animatedSlides.has(index)) return;
+
+                    let animationTriggered = false;
+                    if (index === 0) { animateFactorBars(); animationTriggered = true; } 
+                    else if (index === 1) { createRadarChart(); animationTriggered = true; }
+                    
+                    if(animationTriggered) {
+                        animatedSlides.add(index);
+                        setTimeout(() => {
+                            if (currentIndex === index) {
+                                sliderContainer.style.height = slides[index].scrollHeight + 'px';
+                            }
+                        }, 150);
+                    }
+                };
+
+                nextButton.addEventListener('click', () => {
+                    if (currentIndex < slides.length - 1) moveToSlide(currentIndex + 1);
+                });
+                prevButton.addEventListener('click', () => {
+                    if (currentIndex > 0) moveToSlide(currentIndex - 1);
+                });
+                
                 setTimeout(() => {
-                    bar.style.width = `${width}%`;
-                    bar.textContent = value;
-                }, 500);
-            });
-        }
+                    sliderContainer.style.height = slides[0].scrollHeight + 'px';
+                    updateNav();
+                    triggerSlideAnimations(0);
+                }, 100);
 
-        // --- AI Interaction Simulation ---
-        async function callGeminiAPI(prompt) {
-            console.log("Simulating Gemini API Call with prompt:", prompt);
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            return "AI 재진단 결과입니다: <strong>재방문율을 높이는 것이 가장 시급한 과제</strong>로 보입니다. 신규 고객 유입은 긍정적이나, 이들을 단골로 전환하지 못하면 마케팅 비용만 소모될 수 있습니다. <strong>고객 관리(CRM) 시스템 도입</strong>이나 <strong>포인트 적립 제도 강화</strong>를 고려해 보세요.";
-        }
+                window.addEventListener('resize', () => {
+                    // Recalculate and apply the correct transform and height on resize
+                    const newTransform = slides[currentIndex].offsetLeft;
+                    sliderTrack.style.transition = 'none'; // Disable transition for instant resize
+                    sliderTrack.style.transform = `translateX(-${newTransform}px)`;
+                    sliderContainer.style.height = slides[currentIndex].scrollHeight + 'px';
+                    setTimeout(() => {
+                        sliderTrack.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+                    }, 50);
+                });
+            }
 
-        document.getElementById('regenerateDiagnosis').addEventListener('click', async (e) => {
-            const btn = e.target.closest('button');
-            const aiDiagnosisText = document.getElementById('aiDiagnosisText');
+            function createRadarChart() {
+                const ctx = document.getElementById('radarChart');
+                if (!ctx || Chart.getChart(ctx)) return; 
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['수익성', '안정성', '성장성', '활동성', '생산성'],
+                        datasets: [
+                            { label: '이번 분기', data: [70, 60, 55, 80, 65], backgroundColor: 'rgba(74, 144, 226, 0.4)', borderColor: 'rgba(74, 144, 226, 1)', borderWidth: 2 },
+                            { label: '지난 분기', data: [75, 65, 60, 70, 70], backgroundColor: 'rgba(107, 114, 128, 0.4)', borderColor: 'rgba(107, 114, 128, 1)', borderWidth: 2, borderDash: [5, 5] }
+                        ]
+                    },
+                    options: {
+                        animation: { duration: 1500, easing: 'easeOutQuart' },
+                        scales: { r: { angleLines: { color: 'rgba(255, 255, 255, 0.2)' }, grid: { color: 'rgba(255, 255, 255, 0.2)' }, pointLabels: { font: { size: 12, weight: 'bold' }, color: '#E0E1DD' }, ticks: { display: false }, min: 0, max: 100 } },
+                        plugins: { legend: { display: false } },
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+
+            function animateFactorBars() {
+                const bars = document.querySelectorAll('.factor-bar-fill');
+                bars.forEach(bar => {
+                    setTimeout(() => {
+                        bar.style.width = bar.dataset.width + '%';
+                        bar.textContent = bar.dataset.value;
+                    }, 300);
+                });
+            }
+
+            function typeWriter(element, text, onComplete) {
+                let i = 0;
+                element.innerHTML = '';
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 25);
+                    } else if (onComplete) {
+                        onComplete();
+                    }
+                }
+                type();
+            }
+
+            async function callGeminiAPI(type) {
+                console.log("Simulating Gemini API Call for type:", type);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                if (type === 'regenerate') {
+                    return "AI 재진단 결과입니다: 재방문율을 높이는 것이 가장 시급한 과제로 보입니다. 신규 고객 유입은 긍정적이나, 이들을 단골로 전환하지 못하면 마케팅 비용만 소모될 수 있습니다. 고객 관리(CRM) 시스템 도입이나 포인트 적립 제도 강화를 고려해 보세요.";
+                }
+                return "사장님, 안녕하세요! 함께가게 AI 컨설턴트입니다. 성수동 상권의 높은 유동인구 덕에 신규 고객은 늘었지만, 주변 경쟁 심화와 원가 상승으로 수익성이 악화되고 있어요. 단골 고객 확보를 위한 마케팅과 운영비 절감을 위한 정부 지원이 시급해 보입니다.";
+            }
             
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 다시 진단 중...';
-            
-            const prompt = `카페 '오늘의 온도' (서울 성수동)의 주요 변동 요인은 '신규 고객 유입 +15%, 재방문율 +8%, 인근 경쟁강도 -20%, 재료비 원가 -12%'입니다. 이 데이터를 기반으로 현재 상황을 다시 진단하고, 다른 관점의 해결책을 제시해주세요.`;
-            const result = await callGeminiAPI(prompt);
+            const analysisBtn = document.getElementById('gemini-analysis-btn');
+            const regenerateContainer = document.getElementById('regenerate-container');
+            const regenerateBtn = document.getElementById('regenerateDiagnosis');
 
-            aiDiagnosisText.innerHTML = result;
-            btn.disabled = false;
-            btn.innerHTML = '✨ AI로 다시 진단받기';
+            if (analysisBtn) {
+                analysisBtn.addEventListener('click', async () => {
+                    const responseBox = document.getElementById('ai-response-box');
+                    const loader = document.getElementById('ai-loader');
+                    const summaryContainer = document.getElementById('ai-summary-container');
+                    const responseText = document.getElementById('ai-response-text');
+
+                    analysisBtn.style.display = 'none';
+                    responseBox.style.display = 'block';
+                    loader.style.display = 'flex';
+                    summaryContainer.style.display = 'none';
+                    regenerateContainer.style.display = 'none';
+                    
+                    const result = await callGeminiAPI('initial');
+                    
+                    loader.style.display = 'none';
+                    summaryContainer.style.display = 'flex';
+                    
+                    typeWriter(responseText, result, () => {
+                        regenerateContainer.style.display = 'block';
+                    });
+                });
+            }
+
+            if (regenerateBtn) {
+                regenerateBtn.addEventListener('click', async () => {
+                    const responseText = document.getElementById('ai-response-text');
+                    
+                    regenerateBtn.disabled = true;
+                    regenerateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 다시 진단 중...';
+                    
+                    const newResult = await callGeminiAPI('regenerate');
+                    
+                    typeWriter(responseText, newResult, () => {
+                        regenerateBtn.disabled = false;
+                        regenerateBtn.innerHTML = '✨ AI로 다시 진단받기';
+                    });
+                });
+            }
         });
     </script>
 </body>
