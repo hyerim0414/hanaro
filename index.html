@@ -27,6 +27,7 @@
             background-color: var(--dark-blue);
             color: var(--text-light);
             overflow-x: hidden;
+            word-break: keep-all;
         }
         #main-header {
             background: transparent;
@@ -80,7 +81,8 @@
         .growth-matrix { background: rgba(13, 27, 42, 0.7); padding: 20px; border-radius: 15px; text-align: center; }
         .growth-matrix .status { font-size: 1.4em; font-weight: 900; color: var(--warning); margin-bottom: 5px; }
         .growth-matrix .description { color: var(--text-muted); }
-        .radar-chart-container { position: relative; width: 120%; max-width: 280px; margin: 0 auto; aspect-ratio: 1 / 1; }
+        /* --- 수정된 부분: 차트 너비를 100%로 수정하여 레이아웃 안정성 확보 --- */
+        .radar-chart-container { position: relative; width: 100%; max-width: 280px; margin: 0 auto; aspect-ratio: 1 / 1; }
         #radarChart { width: 100%; height: 100%; }
         .radar-legend { display: flex; justify-content: center; gap: 20px; margin-top: 15px; font-size: 0.8em; color: var(--text-muted); }
         .legend-item { display: flex; align-items: center; gap: 5px; }
@@ -111,7 +113,7 @@
 <body class="antialiased">
 
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto max-w-lg px-6 h-16 flex justify-between items-center">
+        <div class="container mx-auto px-6 h-16 flex justify-between items-center">
             <a href="#" class="text-xl font-extrabold text-white">함께가게</a>
             <a href="https://forms.gle/pXZiqrfdseMKmwpg6" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm cta-button">
                 출시 알림 신청
@@ -119,7 +121,7 @@
         </div>
     </header>
 
-    <div class="container mx-auto max-w-lg p-6 pt-24 space-y-20 md:space-y-24">
+    <div class="container mx-auto p-6 pt-24 space-y-20 md:space-y-24">
 
         <header class="text-center py-16 animate-on-scroll">
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
@@ -129,7 +131,7 @@
                 </span>
             </h1>
             <p class="text-lg text-slate-300 opacity-90 mb-10">
-                함께가게 AI 컨설턴트가 사장님 가게의 문제를 진단하고<br>꼭 맞는 지원 정책을 찾아드려요.
+                함께가게 AI 에이전트가 사장님 가게의 문제를 진단하고 꼭 맞는 지원 정책을 찾아드려요.
             </p>
             <div class="grid grid-cols-3 gap-4 text-center">
                 <div class="glass-card rounded-xl p-4">
@@ -167,6 +169,32 @@
                 </div>
                 <p class="text-3xl font-extrabold text-blue-400 mb-2">이제 '함께가게' 하세요!</p>
                 <p class="text-slate-300">사장님의 복잡한 고민, 저희가 데이터로 해결해 드릴게요.</p>
+            </section>
+
+            <section class="py-10 animate-on-scroll">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-extrabold mt-3 mb-2">모든 지원 정보를 한 곳에서!</h2>
+                    <p class="text-slate-400">'함께가게'는 기관별로 흩어져 있던 정부 정책,<br>금융 상품을 통합하여 안내하는 플랫폼입니다.</p>
+                </div>
+                
+                <div class="relative w-full overflow-hidden h-10">
+                    <div class="marquee-content">
+                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인24</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">기업마당</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">금융위원회</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">한국전력공사</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">신용보증기금</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">IBK기업은행</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인365</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인24</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">기업마당</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">금융위원회</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">한국전력공사</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">신용보증기금</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">IBK기업은행</div>
+                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인365</div>
+                    </div>
+                </div>
             </section>
 
             <section id="diagnosis-report" class="animate-on-scroll">
@@ -274,36 +302,10 @@
                             </div>
                         
                      </div>
-                     <p class="text-center text-sm text-slate-400 mt-6">
+                     <p class="text-center text-lg text-slate-400 mt-6">
                         진단 결과에 따라 <span class="font-semibold text-slate-200">가장 적합한 정책만 골라</span><br>새 공고가 뜨면 카카오톡으로 바로 알려드려요.
-                        <p class="text-center text-xs text-slate-500 mt-1">* 정책 알림받기 신청 시 (출시 예정)</p>
+                        <p class="text-center text-sm text-slate-500 mt-1">* 정책 알림받기 신청 시 (출시 예정)</p>
                      </p>
-                </div>
-            </section>
-            
-            <section class="py-10 animate-on-scroll">
-                <div class="text-center mb-6">
-                    <h2 class="text-3xl font-extrabold mt-3 mb-2">모든 지원 정보를 한 곳에서!</h2>
-                    <p class="text-slate-400">'함께가게'는 기관별로 흩어져 있던 정부 정책,</br>금융 상품을 통합하여 안내하는 플랫폼입니다.</p>
-                </div>
-                
-                <div class="relative w-full overflow-hidden h-10">
-                    <div class="marquee-content">
-                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인24</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">기업마당</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">금융위원회</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">한국전력공사</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">신용보증기금</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">IBK기업은행</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인365</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인24</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">기업마당</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">금융위원회</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">한국전력공사</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">신용보증기금</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">IBK기업은행</div>
-                        <div class="text-slate-500 font-bold text-xl mx-8">소상공인365</div>
-                    </div>
                 </div>
             </section>
 
