@@ -267,9 +267,26 @@
 
                     <div class="report-section mt-6 pt-6 border-t border-slate-700/50">
                         <h4 class="report-section-title"><i class="fa-solid fa-robot"></i>AI 종합 진단</h4>
-                        <button id="gemini-analysis-btn" class="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg cta-button flex items-center justify-center gap-2">
+                        <button id="gemini-analysis-btn"
+                                class="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg cta-button flex items-center justify-center gap-2 track-click"
+                                data-label="AI컨설턴트_분석보기">
                             ✨ AI 컨설턴트 분석 보기
                         </button>
+                        <script>
+                          document.addEventListener('click', function(e) {
+                            const el = e.target.closest('.track-click');
+                            if (!el) return;
+                          
+                            if (typeof gtag !== 'function') return;
+                          
+                            const label = el.dataset.label || el.textContent.trim();
+                          
+                            gtag('event', 'click', {
+                              event_category: 'ui_interaction',
+                              event_label: label
+                            });
+                          });
+                          </script>
                         <div id="ai-response-box" class="mt-4" style="display: none;">
                             <div id="ai-loader" class="flex items-center gap-3 text-sm text-blue-300 p-4 bg-slate-900/70 rounded-lg">
                                 <i class="fa-solid fa-spinner fa-spin"></i>
