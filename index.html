@@ -124,9 +124,13 @@
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-6 h-16 flex justify-between items-center">
             <a href="#" class="text-xl font-extrabold text-white">함께가게</a>
-            <a href="https://forms.gle/pXZiqrfdseMKmwpg6" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm cta-button">
+            <a href="https://forms.gle/pXZiqrfdseMKmwpg6"
+               target="_blank" rel="noopener noreferrer"
+               class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm cta-button track-click"
+               data-label="구글폼_출시알림">
                 출시 알림 신청
             </a>
+
         </div>
     </header>
 
@@ -342,9 +346,28 @@
                 </p>
                 <p class="text-xs text-slate-500 mb-6 -mt-4 italic">* 본 서비스는 사전 수요 조사 단계이며, <br> 실제 출시 여부는 내부 사정에 따라 변경될 수 있습니다.</p>
                 
-                <a href="https://forms.gle/pXZiqrfdseMKmwpg6" target="_blank" rel="noopener noreferrer" class="cta-button inline-block bg-blue-500 text-white font-bold py-4 px-8 rounded-lg text-lg">
+                <a href="https://forms.gle/pXZiqrfdseMKmwpg6"
+                   target="_blank" rel="noopener noreferrer"
+                   class="cta-button inline-block bg-blue-500 text-white font-bold py-4 px-8 rounded-lg text-lg track-click"
+                   data-label="구글폼_출시알림_하단버튼">
                     출시 알림 신청하기 <i class="fa-solid fa-rocket ml-2"></i>
                 </a>
+                <script>
+                  document.addEventListener('click', function(e) {
+                    const el = e.target.closest('.track-click');
+                    if (!el) return;
+
+                    if (typeof gtag !== 'function') return;
+            
+                    const label = el.dataset.label || el.textContent.trim();
+            
+                    gtag('event', 'click', {
+                      event_category: 'external_link',
+                      event_label: label,
+                      destination: el.href
+                    });
+                  });
+                </script>
             </section>
         </main>
 
